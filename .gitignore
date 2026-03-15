@@ -1,0 +1,7 @@
+config.yaml
+logs/
+reports/
+__pycache__/
+*.pyc
+.DS_Store
+.venv/

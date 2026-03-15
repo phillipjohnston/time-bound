@@ -1,0 +1,56 @@
+# time-bound: Scheduled Service Framework
+# Copy this file to config.yaml and customize.
+
+global:
+  log_dir: logs
+  label_prefix: com.embeddedartistry.time-bound
+  project_root: /Users/phillip/src/time-bound
+  python_path: /Users/phillip/src/time-bound/.venv/bin/python3
+  path: /opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+services:
+  git-sync:
+    enabled: true
+    type: python
+    script: services/git_sync.py
+    # Schedule: list of StartCalendarInterval dicts
+    # Keys: Hour, Minute, Weekday (0=Sunday), Day, Month
+    schedule:
+      - Hour: 9
+        Minute: 0
+      - Hour: 17
+        Minute: 0
+    config:
+      repos:
+        - path: /Users/phillip/src/example-repo
+          remote: origin
+          branch: main
+          pull: true
+          push: true
+          auto_commit: false
+
+  code-review:
+    enabled: true
+    type: python
+    script: services/code_review.py
+    schedule:
+      - Hour: 22
+        Minute: 0
+        Weekday: 1  # Monday
+      - Hour: 22
+        Minute: 0
+        Weekday: 3  # Wednesday
+    config:
+      claude_path: /Users/phillip/.local/bin/claude
+      reports_dir: reports
+      codebases:
+        - path: /Users/phillip/src/example-project
+          name: example-project
+          review_focus: >
+            Review this codebase for code quality, potential bugs,
+            and architectural improvements. Focus on maintainability
+            and adherence to best practices.
+          # Days this codebase gets reviewed (0=Monday, 6=Sunday)
+          days: [0, 2]
+          # Output: file, gh-issue, or gh-pr
+          output_method: file

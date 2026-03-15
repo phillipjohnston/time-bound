@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>${label}</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>${python_path}</string>
+        <string>${project_root}/bin/runner.py</string>
+        <string>${service_name}</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>${project_root}</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>${path}</string>
+        <key>HOME</key>
+        <string>${home}</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+${schedule_xml}
+
+    <key>StandardOutPath</key>
+    <string>${project_root}/${log_dir}/${service_name}/launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>${project_root}/${log_dir}/${service_name}/launchd-stderr.log</string>
+</dict>
+</plist>
