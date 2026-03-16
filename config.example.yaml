@@ -84,8 +84,10 @@ services:
     schedule:
       - Hour: 9
         Minute: 0
-      - Hour: 21
+        Weekday: 2  # Tuesday
+      - Hour: 9
         Minute: 0
+        Weekday: 6  # Saturday
     config:
       threshold_gb: 10
       volumes:
