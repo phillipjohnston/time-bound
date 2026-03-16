@@ -54,3 +54,39 @@ services:
           days: [0, 2]
           # Output: file, gh-issue, or gh-pr
           output_method: file
+
+  brew-update:
+    enabled: true
+    type: bash
+    script: services/brew_update.sh
+    schedule:
+      - Hour: 9
+        Minute: 0
+        Weekday: 1  # Sunday (launchd convention)
+
+  log-cleanup:
+    enabled: true
+    type: python
+    script: services/log_cleanup.py
+    schedule:
+      - Hour: 3
+        Minute: 0
+        Weekday: 1  # Sunday
+    config:
+      max_age_days: 30
+      # extra_dirs:
+      #   - /usr/local/var/log/nginx
+
+  disk-health:
+    enabled: true
+    type: python
+    script: services/disk_health.py
+    schedule:
+      - Hour: 9
+        Minute: 0
+      - Hour: 21
+        Minute: 0
+    config:
+      threshold_gb: 10
+      volumes:
+        - /

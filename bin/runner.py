@@ -30,6 +30,8 @@ def load_config():
 SERVICE_MODULES = {
     "git-sync": "services.git_sync",
     "code-review": "services.code_review",
+    "log-cleanup": "services.log_cleanup",
+    "disk-health": "services.disk_health",
 }
 
 
